@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Report 3rd Year Fee Payment Issue | JMI CDOE</title>
+<style>
+  :root{
+    --accent:#1a73e8;
+    --muted:#666;
+    --card-bg:#ffffff;
+    --page-bg1:#e3f2fd;
+    --page-bg2:#f1f8e9;
+    --preview-bg:#fafafa;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(90deg,var(--page-bg1), var(--page-bg2));
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:760px;
+    background:var(--card-bg);
+    border-radius:12px;
+    padding:28px;
+    box-shadow:0 8px 28px rgba(14,30,37,0.12);
+    color:#222;
+  }
+  h1{
+    margin:0 0 18px 0;
+    font-size:1.6rem;
+    text-align:center;
+    color:#0b3a91;
+  }
+  .row{display:flex;flex-wrap:wrap;gap:12px}
+  label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+    color:#222;
+    font-size:0.95rem;
+  }
+  .field{
+    width:100%;
+  }
+  input[type=text]{
+    width:100%;
+    padding:12px 14px;
+    border-radius:8px;
+    border:1px solid #d0d7de;
+    font-size:15px;
+    transition:box-shadow .15s, border-color .15s;
+    background:#fff;
+  }
+  input[type=text]:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px rgba(26,115,232,0.08);
+  }
+
+  /* preview area */
+  .preview-wrap{
+    position:relative;
+    margin-top:16px;
+  }
+  .preview{
+    width:100%;
+    min-height:170px; /* comfortable height */
+    max-height: none;  /* allow expand */
+    padding:18px;
+    border-radius:10px;
+    background:var(--preview-bg);
+    border:1px solid #e3e7ea;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+    font-size:15px;
+    line-height:1.55;
+    color:#222;
+    white-space:pre-wrap;
+    overflow:auto;
+  }
+
+  /* small rewrite button (overlaps bottom-right of preview) */
+  .rewrite-btn{
+    position:absolute;
+    right:12px;
+    bottom:12px;
+    background:#fff;
+    border-radius:8px;
+    border:1px solid #d6d6d6;
+    padding:6px 10px;
+    font-size:14px;
+    color:#333;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(12,24,40,0.08);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .rewrite-btn:hover{background:#f5f6f7}
+
+  /* actions area */
+  .actions{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:18px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .send-btn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:12px 28px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(26,115,232,0.18);
+    transition:transform .08s ease, background .12s;
+  }
+  .send-btn:hover{ transform:translateY(-1px); background:#0b61cc }
+  .note{
+    margin-top:14px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* responsive */
+  @media (max-width:520px){
+    .rewrite-btn{ right:10px; bottom:10px; padding:6px 8px; font-size:13px }
+    .preview{min-height:200px}
+    .send-btn{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<div class="card" role="main" aria-labelledby="pageTitle">
+  <h1 id="pageTitle">Report: 3rd Year Fee Payment Portal Issue</h1>
+
+  <div style="margin-bottom:12px">
+    <label for="name">Your Name *</label>
+    <input id="name" type="text" placeholder="e.g. Zaid" autocomplete="name" />
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div>
+      <label for="rollNo">Roll Number *</label>
+      <input id="rollNo" type="text" placeholder="e.g. D23BA0000" />
+    </div>
+    <div>
+      <label for="enrollNo">Enrollment Number *</label>
+      <input id="enrollNo" type="text" placeholder="e.g. 12-3456" />
+    </div>
+  </div>
+
+  <div class="preview-wrap" style="margin-top:18px">
+    <div id="preview" class="preview" contenteditable="true" aria-label="Email preview — editable">
+      <!-- auto filled preview appears here -->
+    </div>
+
+    <button class="rewrite-btn" id="rewriteBtn" title="Get a different wording (Rewrite)">
+      ↻ Rewrite
+    </button>
+  </div>
+
+  <div class="actions">
+    <button class="send-btn" id="sendBtn">Send My Concern</button>
+  </div>
+
+  <div class="note">
+    The preview opens automatically as you fill your details. You may edit the message before sending.
+  </div>
+</div>
+
+<script>
+/* ---------- 10 improved templates (varied, natural, individual) ---------- */
+const templates = [
+`Respected Dr. Sheikh Moinuddin Sir,
+
+My name is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL]. I am a student of B.A. (3rd Year) ODL, 2023 batch.
+
+While attempting to submit my 3rd-year fee on the online portal, I received the message: "Last date of fee submission is over." The original deadline was 25 October 2025. Despite your kind announcement extending the deadline, the portal still prevents payment.
+
+I would be grateful if you could kindly have the portal updated so I can complete my payment without further difficulty.
+
+Sincerely,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+This is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL], B.A. (3rd Year) ODL, 2023 batch.
+
+Each time I try to pay my 3rd-year fee the portal shows "Last date of fee submission is over." The previously given last date was 25 October 2025, and after the extension announcement the site should have been updated.
+
+I respectfully request your assistance in resolving this technical issue at the earliest.
+
+With thanks,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+My name is [NAME] (Roll No: [ROLL], Enrollment No: [ENROLL]). I am enrolled in B.A. (3rd Year) ODL, 2023 batch.
+
+When I proceed to pay my third-year fees, an error appears saying "Last date of fee submission is over." Since you announced an extension beyond 25 October 2025, I believe the portal needs to be updated.
+
+Please guide or assist so I can submit the fee on time.
+
+Regards,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+I am [NAME], Roll No: [ROLL], Enrollment No: [ENROLL], a student of B.A. (3rd Year) ODL, 2023 batch.
+
+While trying to complete my fee payment, I repeatedly encounter "Last date of fee submission is over" on the payment page. The last date earlier was 25 October 2025; after the extension I am unable to pay.
+
+Kindly look into this matter and allow the portal to accept payments.
+
+Thank you,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+My name is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL], from the 2023 B.A. (3rd Year) ODL batch.
+
+I attempted to pay the 3rd-year fee today, but the portal displays "Last date of fee submission is over." The deadline (25 October 2025) was extended as announced, yet the portal does not reflect this.
+
+I request your kind attention so the portal can be updated and payments processed.
+
+Warm regards,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+This is [NAME] (Roll No: [ROLL], Enrollment No: [ENROLL]) — B.A. (3rd Year) ODL, 2023 batch.
+
+While paying my fee, I see "Last date of fee submission is over." After your announcement extending the deadline beyond 25 October 2025, this should have been removed. Currently, I cannot complete the payment.
+
+Please help resolve this issue at the earliest convenience.
+
+Sincerely,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+My name is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL]. I am a third-year student (B.A. ODL, 2023 batch).
+
+The online fee portal keeps showing "Last date of fee submission is over" when I try to pay. The earlier last date was 25 October 2025; following the extension, the portal appears unchanged.
+
+I humbly request that the portal be updated so payments can be made smoothly.
+
+Thank you,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+I am [NAME], Roll No [ROLL], Enrollment No [ENROLL], B.A. (3rd Year) ODL, 2023 batch.
+
+When attempting to pay the 3rd-year fees, I encounter the message "Last date of fee submission is over." The deadline was 25 October 2025; after your extension note the portal should have been revised.
+
+Kindly look into this and allow students to complete the fee submission.
+
+With regards,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+My name is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL] — B.A. (3rd Year) ODL, 2023 batch.
+
+While proceeding with fee payment, the portal displays "Last date of fee submission is over." This persists despite the extension announced after 25 October 2025.
+
+I request your kind assistance in correcting this so I may submit my fees promptly.
+
+Yours sincerely,
+[NAME]`,
+
+`Respected Dr. Sheikh Moinuddin Sir,
+
+This is [NAME], Roll No: [ROLL], Enrollment No: [ENROLL] from B.A. (3rd Year) ODL, 2023 batch.
+
+On attempting to pay my 3rd-year fees, the payment page shows "Last date of fee submission is over." Although the date was extended past 25 October 2025, the portal does not allow submission.
+
+I would be thankful if this technical issue can be fixed soon so that I can complete my payment.
+
+Thank you,
+[NAME]`
+];
+
+/* state */
+let currentTemplateIndex = null;
+let userEditedPreview = false;
+
+/* DOM */
+const nameInput = document.getElementById('name');
+const rollInput = document.getElementById('rollNo');
+const enrollInput = document.getElementById('enrollNo');
+const previewDiv = document.getElementById('preview');
+const rewriteBtn = document.getElementById('rewriteBtn');
+const sendBtn = document.getElementById('sendBtn');
+
+/* helpers */
+function chooseRandomIndex(){
+  return Math.floor(Math.random() * templates.length);
+}
+function fillTemplate(index, name, roll, enroll){
+  // replace placeholders
+  let t = templates[index];
+  t = t.replaceAll('[NAME]', name).replaceAll('[ROLL]', roll).replaceAll('[ENROLL]', enroll);
+  return t;
+}
+
+/* build preview only when required fields are present and preview not edited by user */
+function tryAutoPreview(){
+  const name = nameInput.value.trim();
+  const roll = rollInput.value.trim();
+  const enroll = enrollInput.value.trim();
+  if(!name || !roll || !enroll) {
+    // if any field missing, clear preview only if user hasn't edited.
+    if(!userEditedPreview){
+      previewDiv.textContent = 'Please enter Name, Roll No and Enrollment No to see the auto-generated email preview.';
+      previewDiv.style.color = '#666';
+    }
+    return;
+  }
+  // if user has edited the preview manually, do not overwrite automatically
+  if(userEditedPreview) return;
+
+  // pick a random template (store index to allow rewrite to pick different)
+  currentTemplateIndex = chooseRandomIndex();
+  const built = fillTemplate(currentTemplateIndex, name, roll, enroll);
+  previewDiv.textContent = built;
+  previewDiv.style.color = '#222';
+  // put caret at end (not necessary) and ensure visible
+  previewDiv.scrollTop = previewDiv.scrollHeight;
+}
+
+/* when user clicks rewrite: give a new random template and show it (overwrite preview) */
+function rewriteEmail(){
+  const name = nameInput.value.trim();
+  const roll = rollInput.value.trim();
+  const enroll = enrollInput.value.trim();
+  if(!name || !roll || !enroll){
+    alert('Please fill Name, Roll No and Enrollment No first.');
+    return;
+  }
+  // pick a different random template if possible
+  let idx = chooseRandomIndex();
+  if(templates.length > 1 && idx === currentTemplateIndex){
+    // try another random to reduce chance of same
+    idx = (idx + 1) % templates.length;
+  }
+  currentTemplateIndex = idx;
+  const built = fillTemplate(currentTemplateIndex, name, roll, enroll);
+  previewDiv.textContent = built;
+  previewDiv.style.color = '#222';
+  userEditedPreview = false; // user can still edit afterwards
+  // focus preview so user may edit quickly
+  previewDiv.focus();
+}
+
+/* send email: if preview has content, use it; else auto generate; then mailto */
+function sendEmail(){
+  const name = nameInput.value.trim();
+  const roll = rollInput.value.trim();
+  const enroll = enrollInput.value.trim();
+  if(!name || !roll || !enroll){
+    alert('Please fill Name, Roll No and Enrollment No first.');
+    return;
+  }
+
+  // determine body: use current preview's text if it is non-empty
+  let bodyText = previewDiv.textContent.trim();
+  if(!bodyText){
+    // fallback: build one
+    if(currentTemplateIndex === null) currentTemplateIndex = chooseRandomIndex();
+    bodyText = fillTemplate(currentTemplateIndex, name, roll, enroll);
+  }
+
+  const subject = "Portal Showing 'Last Date Over' Error – 3rd Year Fee Submission";
+  // encode
+  const mailto = `mailto:c.smoinuddin@jmi.ac.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+  // replace %20 with spaces for cleaner mail preview (keeps other encodings)
+  window.location.href = mailto.replace(/%20/g, ' ');
+}
+
+/* Detect user editing in preview: if user types, set flag */
+previewDiv.addEventListener('input', () => {
+  userEditedPreview = true;
+});
+
+/* Auto-preview when fields change (if user hasn't edited) */
+[nameInput, rollInput, enrollInput].forEach(el => {
+  el.addEventListener('input', tryAutoPreview);
+  el.addEventListener('paste', () => setTimeout(tryAutoPreview, 20));
+});
+
+/* wire buttons */
+rewriteBtn.addEventListener('click', rewriteEmail);
+sendBtn.addEventListener('click', sendEmail);
+
+/* initial placeholder preview */
+previewDiv.textContent = 'Please enter Name, Roll No and Enrollment No to see the auto-generated email preview.';
+previewDiv.style.color = '#666';
+
+/* Accessibility: focus first field */
+nameInput.focus();
+</script>
+</body>
+</html>
