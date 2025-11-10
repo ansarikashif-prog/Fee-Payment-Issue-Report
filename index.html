@@ -179,9 +179,15 @@ Regards,
 
     try{
       await addDoc(collection(db,"submissions"),{
-        name:n,roll:r,enrollment:e,templateIndex:currentTemplate,
-        mailBody:body,timestamp:serverTimestamp()
-      });
+  name: n,
+  roll: r,
+  enrollment: e,
+  templateIndex: currentTemplate,
+  mailBody: body,
+  timestamp: serverTimestamp(), // accurate server UTC time
+  readableTime: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) // readable local time
+});
+
       statusMsg.textContent="Saved. Opening Gmail...";
       const subject=encodeURIComponent("Portal Showing 'Last Date Over' Error – 3rd Year Fee Submission");
       const gmail=`https://mail.google.com/mail/?view=cm&fs=1&to=c.smoinuddin@jmi.ac.in&su=${subject}&body=${encodeURIComponent(body)}`;
